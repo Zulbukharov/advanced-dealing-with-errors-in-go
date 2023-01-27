@@ -1,6 +1,10 @@
 package pipe
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"reflect"
+)
 
 type UserError struct {
 	Operation string
@@ -22,3 +26,16 @@ func (p *PipelineError) Error() string {
 }
 
 // Добавь метод As для типа *PipelineError.
+func (p PipelineError) As(target any) bool {
+	log.Println(reflect.TypeOf(target))
+	switch tt := target.(type) {
+	case **UserError:
+		if *tt == nil {
+			*tt = &UserError{}
+		}
+		(*tt).Operation = p.Name
+		(*tt).User = p.User
+		return true
+	}
+	return false
+}
