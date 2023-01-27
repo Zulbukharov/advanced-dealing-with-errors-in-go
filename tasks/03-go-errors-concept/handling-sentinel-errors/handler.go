@@ -8,11 +8,19 @@ import (
 const defaultPostpone = time.Second
 
 var (
-	ErrAlreadyDone      error = new(AlreadyDoneError)
-	ErrInconsistentData error = new(InconsistentDataError)
-	ErrInvalidID        error = new(InvalidIDError)
-	ErrNotFound         error = new(NotFoundError)
-	ErrNotReady         error = new(NotReadyError)
+	AlreadyDoneError      string = "job is already done"
+	InconsistentDataError string = "job payload is corrupted"
+	InvalidIDError        string = "invalid job id"
+	NotFoundError         string = "job wasn't found"
+	NotReadyError         string = "job is not ready to be performed"
+)
+
+var (
+	ErrAlreadyDone      error = errors.new(AlreadyDoneError)
+	ErrInconsistentData error = errors.new(InconsistentDataError)
+	ErrInvalidID        error = errors.new(InvalidIDError)
+	ErrNotFound         error = errors.new(NotFoundError)
+	ErrNotReady         error = errors.new(NotReadyError)
 )
 
 type Job struct {
