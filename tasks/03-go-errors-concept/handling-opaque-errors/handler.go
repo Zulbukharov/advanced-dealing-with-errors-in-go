@@ -16,19 +16,33 @@ type Handler struct{}
 func (h *Handler) Handle(job Job) (postpone time.Duration, err error) {
 	err = h.process(job)
 	if err != nil {
-		// Обработайте ошибку.
+		if isTemporary(err) {
+			return time.Second * 1, nil
+		} else if shouldBeSkipped(err) {
+			return 0, nil
+		}
 	}
-
-	return 0, nil
+	return 0, err
 }
 
 func isTemporary(err error) bool {
-	// Реализуй меня.
+	type temporary interface {
+		Temporary() bool
+	}
+	if t, ok := err.(temporary); ok {
+		return t.Temporary()
+	}
 	return false
 }
 
 func shouldBeSkipped(err error) bool {
 	// Реализуй меня.
+	type skip interface {
+		Skip() bool
+	}
+	if s, ok := err.(skip); ok {
+		return s.Skip()
+	}
 	return false
 }
 
