@@ -1,6 +1,8 @@
 package pipe
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type PipelineError struct {
 	User        string
@@ -13,3 +15,11 @@ func (p *PipelineError) Error() string {
 }
 
 // Добавь метод Is для типа *PipelineError.
+func (p *PipelineError) Is(target error) bool {
+	if t, ok := target.(*PipelineError); ok &&
+		t.Name == p.Name &&
+		p.User == t.User {
+		return true
+	}
+	return false
+}
