@@ -1,7 +1,7 @@
 package requests
 
 import (
-	"fmt"
+	"log"
 	"strings"
 	"testing"
 
@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func ExampleSearchRequest_Validate() {
+func TestExampleSearchRequest_Validate(t *testing.T) {
 	req := SearchRequest{
 		Exp:      "(.*golang.*",
 		Page:     -1,
@@ -21,7 +21,7 @@ func ExampleSearchRequest_Validate() {
 		panic("invalid Validate() realization")
 	}
 
-	fmt.Println(errorMsg(err))
+	log.Println(errorMsg(err))
 	// Output:
 	// validation errors:
 	//     exp is not regexp: error parsing regexp: missing closing ): `(.*golang.*`
