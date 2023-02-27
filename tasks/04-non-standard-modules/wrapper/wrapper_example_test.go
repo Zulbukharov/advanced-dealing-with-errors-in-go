@@ -3,6 +3,7 @@ package errors
 import (
 	"fmt"
 	"io"
+	"log"
 
 	"github.com/pkg/errors"
 )
@@ -16,11 +17,12 @@ func ExampleNewUserError() {
 
 	var i withUserID
 	if errors.As(err, &i) {
-		fmt.Println(i.UserID())
+		log.Println("here")
+		log.Println(i.UserID())
 	}
 
 	if i, ok := errors.Cause(err).(withUserID); ok { // Это не работает!
-		fmt.Println(i.UserID())
+		log.Println(i.UserID())
 	}
 
 	// Output:
